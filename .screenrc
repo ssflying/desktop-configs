@@ -1,0 +1,219 @@
+# ==============================================================================
+# SCREEN SETTINGS
+# ==============================================================================
+# VARIABLES
+# ===============================================================
+
+# If set to on, "alternate screen" support is enabled in  virtual  terminals,
+# just like in xterm.  Initial setting is `off'.
+  altscreen on
+
+# 缓存文件：    以下命令需要用到它。
+#               "readbuf" ('<') and  "writebuf" ('>'):
+  bufferfile            $HOME/.screen_exchange
+
+# 对于用C-a [复制文本时的范围会有影响。
+# 当开启时，以CR LF分隔行; 当关闭时，以LF分隔行
+  crlf off				# default: off
+
+# 新建窗口的默认scrollback值。
+  defscrollback 1000			# default: 100
+
+# 当建立新窗口的时候，默认为非登录，使得utmp中不增加新的记录。
+# 这样uptime时，用户数不会因为新开窗口而增加
+  deflogin off
+
+# 使得默认开启的新窗口使用UTF-8编码显示和传递信息。
+  defutf8 on
+
+# 开启或关闭多用户模式，标准的screen时单用户模式。
+# 在多用户模式下 acladd, aclchg, aclgrp 以及 acldel命令才会生效。 
+# 要控制其他用户连接到当前的screen会话需要suid-root权限。
+  multiuser off				
+
+# 屏蔽开启screen时的版权信息。
+  startup_message off			# default: on
+
+# 定义被监控的窗口在显示信息前所需等待的时间。
+  silencewait 15			# default: 30
+
+# 关闭烦人的喇叭音提示，用弹出信息的方式。
+  vbell on				# default: off
+  vbell_msg "   -- Bell,Bell!! --   "	# default: "Wuff,Wuff!!"
+
+# XTERM TWEAKS
+# ===============================================================
+
+# xterm understands both im/ic and doesn't have a status line.
+# Note: Do not specify im and ic in the real termcap/info file as
+# some programs (e.g. vi) will not work anymore.
+  termcap  xterm hs@:cs=\E[%i%d;%dr:im=\E[4h:ei=\E[4l
+  terminfo xterm hs@:cs=\E[%i%p1%d;%p2%dr:im=\E[4h:ei=\E[4l
+
+# 80/132 column switching must be enabled for ^AW to work
+# change init sequence to not switch width
+  termcapinfo  xterm Z0=\E[?3h:Z1=\E[?3l:is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l
+
+# Make the output buffer large for (fast) xterms.
+# termcapinfo xterm* OL=10000
+  termcapinfo xterm* OL=100
+
+# tell screen that xterm can switch to dark background and has function
+# keys.
+  termcapinfo xterm 'VR=\E[?5h:VN=\E[?5l'
+  termcapinfo xterm 'k1=\E[11~:k2=\E[12~:k3=\E[13~:k4=\E[14~'
+  termcapinfo xterm 'kh=\EOH:kI=\E[2~:kD=\E[3~:kH=\EOF:kP=\E[5~:kN=\E[6~'
+
+# special xterm hardstatus: use the window title.
+  termcapinfo xterm 'hs:ts=\E]2;:fs=\007:ds=\E]2;screen\007'
+
+#terminfo xterm 'vb=\E[?5h$<200/>\E[?5l'
+  termcapinfo xterm 'vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l'
+
+# emulate part of the 'K' charset
+  termcapinfo xterm 'XC=K%,%\E(B,[\304,\\\\\326,]\334,{\344,|\366,}\374,~\337'
+
+# xterm-52 tweaks:
+# - uses background color for delete operations
+  termcapinfo xterm* be
+
+# Do not use xterm's alternative window buffer, it breaks scrollback (see bug #61195)
+  termcapinfo xterm|xterms|xs ti@:te=\E[2J
+
+
+#
+# hardcopydir:  The directory which contains all hardcopies.
+# hardcopydir           ~/.hardcopy
+# hardcopydir           ~/.screen
+
+# shell: screen新建窗口后默认使用的shell。
+# 使得可以在screen内使用与系统默认设置不同的shell。
+# 如果以'-'开头，那么这个shell将以登录shell的方式开启。
+# shell                 zsh
+# shell                 bash
+# shell                 ksh
+  shell $SHELL
+
+# 查看man screen的TITLES节。
+shelltitle '$ |bash'
+
+# 当执行pow_detach时显示如下信息。
+  pow_detach_msg "Screen session of \$LOGNAME \$:cr:\$:nl:ended."
+
+# caption always " %w --- %c:%s"
+# caption always "%3n %t%? @%u%?%? [%h]%?%=%c"
+
+# set every new windows hardstatus line to somenthing descriptive
+# defhstatus "screen: ^En (^Et)"
+
+# don't kill window after the process died
+# zombie "^["
+
+
+# KEYBINDINGS
+# ==============================================================
+# The "bind" command assign keys to (internal) commands
+# SCREEN checks all the keys you type; you type the key
+# which is known as the "command character" then SCREEN
+# eats this key, too, and checks whether this key is
+# "bound" to a command.  If so then SCREEN will execute it.
+#
+# The command "bind" allows you to chose which keys
+# will be assigned to the commands.
+#
+# Some commands are bound to several keys -
+# usually to both some letter and its corresponding
+# control key combination, eg the command
+# "(create) screen" is bound to both 'c' and '^C'.
+
+# 去掉几个很危险的键绑定。
+  bind k
+  bind ^k
+  bind .
+  bind ^\
+  bind \\
+  bind ^h
+  bind h
+
+# 去掉ctrl-g
+  bind ^g
+# ... 然后重新定义一些更好安全好用的。
+  bind 'K' kill
+  bind 'I' login on
+  bind 'O' login off
+  bind '}' history
+  bind \033 screen -ln -t root -h 1000 9 su     # C-a esc 开启root @ 9th window
+
+# Yet another hack:
+# Prepend/append register [/] to the paste if ^a^] is pressed.
+# This lets me have autoindent mode in vi.
+  register [ "\033:se noai\015a"
+  register ] "\033:se ai\015a"
+  bind ^] paste [.]
+
+# Resize the current region. The space will be removed from or added to 
+# the region below or if there's not enough space from the region above.
+  bind = resize =
+  bind + resize +3
+  bind - resize -3
+
+# Some useful used keystrokes
+  bind v
+  bind v screen sdcv
+  bind w
+  bind w screen -t wcpe mplayer http://audio-ogg.ibiblio.org:8000/wcpe.ogg
+  bind ' ' windows
+  bind ^g encoding gbk
+  bind ^u encoding utf8
+  bind b screen telnet bbs.tsinghua.edu.cn
+
+
+#change the hardstatus settings to give an window list at the bottom of the screen, with the time and date and with the current window highlighted.
+#hardstatus alwayslastline "%{=b kG} %-Lw%50>%n%f %t%+Lw%< %-=%D %d %M %Y %c:%s%{-}"
+hardstatus alwayslastline "%{=b kG} %-Lw%50>%n%f %t%+Lw%<"
+
+# STARTUP SCREENS
+# ===============================================================
+# Defines the time screen delays a new message when one message
+# is currently displayed. The default is 1 second.
+#  msgminwait 2
+
+# Time a message is displayed if screen is not disturbed by
+# other activity. The dafault is 5 seconds:
+#  msgwait 2
+
+# Briefly show the version number of this starting
+# screen session - but only for *one* second:
+#  msgwait 1
+#  version
+
+# Welcome the user:
+# echo "welcome :-)"
+# echo "I love you today."
+
+# Uncomment one/some following lines to automatically let
+# SCREEN start some programs in the given window numbers:
+# screen -t MAIL        0 mutt
+# screen -t EDIT        1 vim
+# screen -t GOOGLE      2 links http://www.google.com
+# screen -t NEWS        3 slrn
+# screen -t WWW         4 links http://www.math.fu-berlin.de/~guckes/
+# screen 5
+# screen 6
+
+# Set the environment variable var to value string. If only var is specified,
+# you'll be prompted to enter a value. If no parameters are specified,
+# you'll be prompted for both variable and value. The environment is
+# inherited by all subsequently forked shells.
+# setenv PROMPT_COMMAND 'echo -n -e "\033k\033\134"'
+
+# Don't you want to start programs which need a DISPLAY ?
+# setenv DISPLAY ''
+
+
+
+screen -t bash		0	
+screen -t irssi		1	irssi
+
+#defescape ^Oo
+#escape ^Oo
