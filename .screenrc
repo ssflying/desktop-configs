@@ -170,7 +170,9 @@ shelltitle '$ |bash'
 
 #change the hardstatus settings to give an window list at the bottom of the screen, with the time and date and with the current window highlighted.
 #hardstatus alwayslastline "%{=b kG} %-Lw%50>%n%f %t%+Lw%< %-=%D %d %M %Y %c:%s%{-}"
-hardstatus alwayslastline "%{=b kG} %-Lw%50>%n%f %t%+Lw%<"
+#hardstatus alwayslastline "%{=b kG} %-Lw%50>%n%f %t%+Lw%<"
+hardstatus alwayslastline
+hardstatus string "%{= B}:%{= b}: %{= r}[ %{G}%H%{= r} ] %= %{=b b}%-w%{=rb db}%>%n %t%{-}%+w %=%{= r}[ %{G}%c %{M}%D %m-%d %{r}] %{= b}:%{B}:"
 
 # STARTUP SCREENS
 # ===============================================================
