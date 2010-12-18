@@ -1,0 +1,52 @@
+Xft.dpi:			122
+
+!!! xterm settings
+XTerm*preeditType: Root
+XTerm*faceName:   xft:Dejavu Sans Mono:size=10
+XTerm*faceNameDoublesize:   xft:WenQuanYi Zen Hei:size=10
+!XTerm*faceSize:    14
+!XTerm*font: -misc-fixed-medium-r-normal--18-120-100-100-c-90-iso10646-1
+!XTerm*font:             -*-dejavu sans mono-medium-r-normal-*-14-*-*-*-*-*-iso10646-*
+!XTerm*boldFont:         -*-dejavu sans mono-bold-r-normal-*-14-*-*-*-*-*-iso10646-*
+!XTerm*wideFont:         -*-wenquanyi bitmap song-medium-r-normal-*-16-*-*-*-*-*-iso10646-*
+!XTerm*wideBoldFont:     -*-wenquanyi bitmap song-bold-r-normal-*-13-*-*-*-*-*-iso10646-*
+XTerm*scrollBar:   false
+XTerm*background:   grey10
+!XTerm*background:   #C5F8BC
+XTerm*foreground:   WhiteSmoke
+!XTerm*background:   WhiteSmoke
+!XTerm*foreground:    grey10
+XTerm*cursorColor:   green
+XTerm*cursorBlink:   false
+XTerm*saveLines:  32768
+XTerm*metaSendsEscape:    true
+!print color and bold/underline attributes
+
+!!! urxvt settings
+URxvt*background:		grey10
+URxvt*foreground:		WhiteSmoke
+!URxvt*foreground:		Green
+URxvt*transparent:              true
+URxvt*shading:			40
+!URxvt*font:			xft:Monaco:size=14,xft:WenQuanYi Zen Hei:size=14
+URxvt*font:			xft:Dejavu Sans Mono:size=10,xft:WenQuanYi Zen Hei Mono:size=14
+!URxvt*font:			xft:Terminus:size=10,xft:WenQuanYi Zen Hei Mono:size=14
+!URxvt*font:			xft:YaHei Consolas Hybrid:size=10
+URxvt.print-pipe:               cat > $(TMPDIR=$HOME mktemp urxvt.XXXXXX)
+URxvt*title:			rxvt-unicode
+URxvt*scrollBar:		false
+URxvt*scrollstyle:		plain
+!URxvt*saveLines:		8192
+URxvt*scrollTtyOutput:		false
+!scroll with scrollback buffer when tty receives new lines && scrollTtyOutput is false
+URxvt*scrollWithBuffer:		true
+URxvt*scrollTtyKeypress:	false
+URxvt*borderLess:               false
+!URxvt*lineSpace:                1
+URxvt*preeditType:              Root
+URxvt*perl-ext-common:		default,matcher
+URxvt*matcher*button:		1
+URxvt*urlLauncher:		opera
+!URxvt*cursorUnderline:		false
+!Change Locale to zh_CN.BGK
+URxvt.keysym.M-C-c:             command:\033]701;zh_CN.GBK\007
